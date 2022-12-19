@@ -1,0 +1,62 @@
+@startuml
+
+package utils{
+    class Logger
+    Class Constants
+    class SoundBlocks
+    class Notes
+}
+
+package design{
+    class NamedElement
+    abstract class Signal
+    class Oscillator
+    class ComplexOscillator
+    class Track
+    abstract Class Effect
+
+    NamedElement <-- Effect
+    NamedElement <-- Signal
+    Signal <|-- Oscillator
+    Signal <|-- Track
+    Oscillator <-- ComplexOscillator
+
+    Signal <-- Track : Contains
+    Effect <-- Track : Contains
+
+    class EffectAmplify
+    Class EffectEnveloppe
+    class EffectRepeat
+    class EffectReverb
+    class EffectSteps
+
+    Effect <|-- EffectAmplify
+    Effect <|-- EffectEnveloppe
+    Effect <|-- EffectRepeat
+    Effect <|-- EffectReverb
+    Effect <|-- EffectSteps
+}
+
+package run{
+    class NoiseMaker extends App
+
+    class Synth
+    class Sampler extends Thread
+    class Player extends Thread
+    class Writer
+    class SharedArea
+    class SharedByteBuffer
+
+    Track --> Synth : Creates on play()
+    Synth --> Player : Creates
+    Synth --> Sampler : Creates
+
+    Sampler --> Track
+    Sampler --> SharedArea
+    Sampler --> SharedByteBuffer
+
+    Player --> SharedArea
+    Player --> SharedByteBuffer
+}
+
+@enduml
